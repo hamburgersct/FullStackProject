@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import './Counter.css'
+import CounterButton from "./CounterButton"
 
 class Counter extends Component {
     constructor() {
@@ -9,32 +9,42 @@ class Counter extends Component {
         }
         this.increment = this.increment.bind(this)
         this.decrement = this.decrement.bind(this)
+        this.reset = this.reset.bind(this)
     }
 
     render() {
-        return (
-            <div className="counter">
-            <button onClick={this.increment}>+1</button>
-            <button onClick={this.decrement}>-1</button>
-            <span className="count">{this.state.counter}</span>
-            </div>
+      return (
+        // pass increment/decrement method to CounterButton (child) as a prop
+        <div className="App">
+          <CounterButton by={1} incrementMethod={this.increment} decrementMethod={this.decrement}/>
+          <CounterButton by={5} incrementMethod={this.increment} decrementMethod={this.decrement}/>
+          <CounterButton by={10} incrementMethod={this.increment} decrementMethod={this.decrement}/>
+          <span className="count">{this.state.counter}</span>
+          <div><button className="reset" onClick={this.reset}>Reset</button></div>
+        </div>
+      );
+    }
+    increment(by) {
+        console.log(`Increment from parent - by ${by}`);
+        this.setState(
+            (prevState) => {
+                return {counter : prevState.counter + by}
+            }
         )
     }
 
-    increment() {
-        //console.log("Increment");
-        this.setState({
-            counter : this.state.counter + 1
-        })
+    decrement(by) {
+        console.log(`Decrement from parent - by ${by}`);
+        this.setState(
+            (prevState) => {
+                return {counter : prevState.counter - by}
+            }
+        )
     }
 
-    decrement() {
-        this.setState({
-            counter : this.state.counter - 1
-        })
+    reset() {
+        this.setState({counter : 0})
     }
-}
-
-
+  }
 
 export default Counter
