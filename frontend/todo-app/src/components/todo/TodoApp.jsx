@@ -1,82 +1,65 @@
 import React, {Component} from 'react'
+import LoginComponent from './LoginComponent'
+import WelcomeComponent from './WelcomeComponent'
+import ListTodoComponent from './ListTodoComponent'
+import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom'
 
 class TodoApp extends Component {
     render() {
         return(
             <div className="TodoApp">
-                <LoginComponent/>
+                <Router>
+                    <div>
+                        <HeaderComponent/>
+                        <Switch>
+                            <Route path="/" exact component={LoginComponent}/>
+                            <Route path="/login" component={LoginComponent}/>
+                            <Route path="/welcome/:name" component={WelcomeComponent}/>
+                            <Route path="/todos" component={ListTodoComponent}/>
+                            <Route component={ErrorComponent}/>
+                        </Switch>
+                        <FooterComponent/>
+                    </div>
+                </Router>
+                {/* <LoginComponent/>
+                <WelcomeComponent/> */}
             </div>
         )
     }
 }
 
-class LoginComponent extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            username : "hamburgersct",
-            password : "",
-            hasLoginFailed : false,
-            showSuccessMessage : false,
-        }
+function ErrorComponent() {
+    return <div>An error ocurred. Please contact technique support.</div>
+}
 
-        // this.handleUsernameChange = this.handleUsernameChange.bind(this)
-        // this.handlePasswordChange = this.handlePasswordChange.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-        this.loginClicked = this.loginClicked.bind(this)
-    }
+class HeaderComponent extends Component {
     render() {
-        return(
+        return (
+            <header>
+                <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+                    <div><a href="https://github.com/hamburgersct" className="navbar-brand">hamburger</a></div>
+                    <ul className="navbar-nav">
+                        <li><Link to="./welcome/demo-user" className="nav-link">Home</Link></li>
+                        <li><Link to="./todos" className="nav-link">Todos</Link></li>
+                    </ul>
+                    <ul className="navbar-nav navbar-collapse justify-content-end">
+                        <li><Link to="./login" className="nav-link">Login</Link></li>
+                        <li><Link to="./xx" className="nav-link">Logout</Link></li>
+                    </ul>
+                </nav>
+            </header>
+        )
+    }
+}
+
+class FooterComponent extends Component {
+    render() {
+        return (
             <div>
-                <ShowInvalidCredentials hasLoginFailed={this.state.hasLoginFailed}/>
-                <ShowSuccessCredentials showSuccessMessage={this.state.showSuccessMessage}/>
-                User Name: <input type="text" name="username" value={this.state.username} onChange={this.handleChange}/>
-                Password: <input type="password" name="password" value={this.state.password} onChange={this.handleChange}/>
-                <button onClick={this.loginClicked}>Login</button>
+                <hr/> Footer
             </div>
         )
     }
-
-    // handleUsernameChange(event) {
-    //     console.log(event.target.value)
-    //     this.setState({username : event.target.value})
-    // }
-
-    // handlePasswordChange(event) {
-    //     this.setState({password : event.target.value})
-    // }
-
-    handleChange(event) {
-        this.setState({
-            [event.target.name] : event.target.value
-        })
-    }
-
-    loginClicked() {
-        if (this.state.username === "hamburgersct" && this.state.password === "dummy") {
-            this.setState({showSuccessMessage : true})
-            this.setState({hasLoginFailed : false})
-        }
-        else {
-            this.setState({showSuccessMessage : false})
-            this.setState({hasLoginFailed : true})
-        }
-        console.log(this.state)
-    }
-}
-
-function ShowInvalidCredentials(props) {
-    if (props.hasLoginFailed) {
-        return <div>Invalid Credentials!</div>
-    }
-    return null
-}
-
-function ShowSuccessCredentials(props) {
-    if (props.showSuccessMessage) {
-        return <div>Login Successfully</div>
-    }
-    return null
 }
 
 export default TodoApp
