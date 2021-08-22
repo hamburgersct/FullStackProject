@@ -16,29 +16,31 @@ class ListTodoComponent extends Component{
         return (
             <div>
                 <h1>Todo List</h1>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>id</th>
-                            <th>Description</th>
-                            <th>Target Date</th>
-                            <th>Is Completed?</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            this.state.todos.map (
-                                todo =>
-                                    <tr>
-                                        <td>{todo.id}</td>
-                                        <td>{todo.description}</td>
-                                        <td>{todo.date.toString()}</td>
-                                        <td>{todo.done.toString()}</td>
-                                    </tr>
-                            )
-                        }
-                    </tbody>
-                </table>
+                <div className="container">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Description</th>
+                                <th>Target Date</th>
+                                <th>Is Completed?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                this.state.todos.map (
+                                    todo =>
+                                        <tr key={todo.id}>
+                                            <td>{todo.id}</td>
+                                            <td>{todo.description}</td>
+                                            <td>{todo.date.toString()}</td>
+                                            <td>{todo.done.toString()}</td>
+                                        </tr>
+                                )
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         )
     }

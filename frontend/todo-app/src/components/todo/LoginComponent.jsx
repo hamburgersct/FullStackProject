@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import AuthenticationService from './AuthenticationService'
 
 class LoginComponent extends Component {
     constructor(props) {
@@ -18,13 +19,16 @@ class LoginComponent extends Component {
     render() {
         return(
             <div>
-                {/*<ShowInvalidCredentials hasLoginFailed={this.state.hasLoginFailed}/>*/}
-                {this.state.hasLoginFailed && <div>Login Failed</div>}
-                {/*<ShowSuccessCredentials showSuccessMessage={this.state.showSuccessMessage}/>*/}
-                {this.state.showSuccessMessage && <div>Login Successfully</div>}
-                User Name: <input type="text" name="username" value={this.state.username} onChange={this.handleChange}/>
-                Password: <input type="password" name="password" value={this.state.password} onChange={this.handleChange}/>
-                <button onClick={this.loginClicked}>Login</button>
+                <h1>Login</h1>
+                <div className="container">
+                    {/*<ShowInvalidCredentials hasLoginFailed={this.state.hasLoginFailed}/>*/}
+                    {this.state.hasLoginFailed && <div className="alert alert-warning">Login Failed</div>}
+                    {/*<ShowSuccessCredentials showSuccessMessage={this.state.showSuccessMessage}/>*/}
+                    {this.state.showSuccessMessage && <div>Login Successfully</div>}
+                    User Name: <input type="text" name="username" value={this.state.username} onChange={this.handleChange}/>
+                    Password: <input type="password" name="password" value={this.state.password} onChange={this.handleChange}/>
+                    <button className="btn btn-success" onClick={this.loginClicked}>Login</button>
+                </div>
             </div>
         )
     }
@@ -48,6 +52,7 @@ class LoginComponent extends Component {
         if (this.state.username === "hamburgersct" && this.state.password === "dummy") {
             // this.setState({showSuccessMessage : true})
             // this.setState({hasLoginFailed : false})
+            AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password)
             this.props.history.push(`/welcome/${this.state.username}`)
         }
         else {
