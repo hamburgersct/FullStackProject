@@ -3,6 +3,7 @@ import LoginComponent from './LoginComponent'
 import WelcomeComponent from './WelcomeComponent'
 import ListTodoComponent from './ListTodoComponent'
 import AuthenticationService from './AuthenticationService'
+import AuthenticatedRoute from './AuthenticatedRoute'
 import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom'
 
 
@@ -16,9 +17,10 @@ class TodoApp extends Component {
                         <Switch>
                             <Route path="/" exact component={LoginComponent}/>
                             <Route path="/login" component={LoginComponent}/>
-                            <Route path="/welcome/:name" component={WelcomeComponent}/>
-                            <Route path="/todos" component={ListTodoComponent}/>
-                            <Route path="/logout" component={LogoutComponent}/>
+                            {/* use authenticaed route to route some pages only for authenticated users */}
+                            <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent}/>
+                            <AuthenticatedRoute path="/todos" component={ListTodoComponent}/>
+                            <AuthenticatedRoute path="/logout" component={LogoutComponent}/>
                             <Route component={ErrorComponent}/>
                         </Switch>
                         <FooterComponent/>
