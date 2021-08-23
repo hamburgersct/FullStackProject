@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import AuthenticationService from './AuthenticationService'
-import {BrowserRouter as Link} from 'react-router-dom'
+import AuthenticationService from './AuthenticationService.js'
+import {Link} from 'react-router-dom'
+import { withRouter } from 'react-router';
 
-// TODO: need to fix the bug that the menu is not dynamic
 class HeaderComponent extends Component {
     render() {
         const isUserLoggedIn = AuthenticationService.isLoggedIn()
@@ -24,4 +24,5 @@ class HeaderComponent extends Component {
     }
 }
 
-export default HeaderComponent
+// to make the header menu dynamic
+export default withRouter(HeaderComponent)

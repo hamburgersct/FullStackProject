@@ -6,7 +6,8 @@ import AuthenticatedRoute from './AuthenticatedRoute'
 import HeaderComponent from './HeaderComponent'
 import FooterComponent from './FooterComponent'
 import LogoutComponent from './LogoutComponent'
-import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom'
+import ErrorComponent from './ErrorComponent'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 
 class TodoApp extends Component {
@@ -33,10 +34,6 @@ class TodoApp extends Component {
             </div>
         )
     }
-}
-
-function ErrorComponent() {
-    return <div>An error ocurred. Please contact technique support.</div>
 }
 
 
