@@ -3,9 +3,9 @@ import propTypes from "prop-types"
 import './CounterButton.css'
 
 class CounterButton extends Component {
-    constructor() {
-        super()
-    }
+    // constructor() {
+    //     super()
+    // }
 
     // we can change original function into arrow function
     // we can also include inline css in JSX
