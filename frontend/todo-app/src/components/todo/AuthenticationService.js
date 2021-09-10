@@ -13,6 +13,11 @@ class AuthenticationService {
         let user = sessionStorage.getItem("authenticatedUser")
         return (user === null) ? false : true
     }
+    // return logged in username
+    getLoggedInUser() {
+        let user = sessionStorage.getItem("authenticatedUser")
+        return (user == null) ? '' : user
+    }
 }
 
 // for React component we export the class directly, for helper services we export an instance of the class (an object)
