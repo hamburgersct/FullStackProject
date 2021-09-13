@@ -1,18 +1,28 @@
 import React, {Component} from 'react'
 import TodoDataService from '../../api/todo/TodoDataService.js'
 import AuthenticationService from './AuthenticationService.js'
+import moment from 'moment'
 
 class ListTodoComponent extends Component{
     constructor(props) {
         super(props)
+        // console.log('constructor')
         this.state = {
-            todos : []
+            todos : [],
+            message : null
         }
+        // binding
+        this.deleteTodoClicked = this.deleteTodoClicked.bind(this)
+        this.updateTodoClicked = this.updateTodoClicked.bind(this)
+        this.refreshTodos = this.refreshTodos.bind(this)
+        this.addTodoClicked = this.addTodoClicked.bind(this)
     }
 
     componentDidMount() {
-        // this method is called immediately after the component is mounted
-        // here is the right place to load data from a remote endpoint
+        this.refreshTodos()
+    }
+
+    refreshTodos() {
         let username = AuthenticationService.getLoggedInUser()
         TodoDataService.retrieveAllTodos(username)
             .then(
@@ -24,17 +34,19 @@ class ListTodoComponent extends Component{
     }
 
     render() {
+        // console.log('render')
         return (
             <div>
                 <h1>Todo List</h1>
+                {this.state.message && <div className="alert alert-success">{this.state.message}</div>}
                 <div className="container">
                     <table className="table">
                         <thead>
                             <tr>
-                                <th>id</th>
                                 <th>Description</th>
                                 <th>Target Date</th>
                                 <th>Is Completed?</th>
+                                <th>Operations</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,19 +54,46 @@ class ListTodoComponent extends Component{
                                 this.state.todos.map (
                                     todo =>
                                         <tr key={todo.id}>
-                                            <td>{todo.id}</td>
                                             <td>{todo.description}</td>
-                                            <td>{todo.targetDate.toString()}</td>
+                                            <td>{moment(todo.targetDate).format('YYYY-MM-DD').toString()}</td>
                                             <td>{todo.done.toString()}</td>
+                                            <td><button className="btn btn-primary" onClick={() => this.updateTodoClicked(todo.id)}>update</button></td>
+                                            <td><button className="btn btn-secondary" onClick={() => this.deleteTodoClicked(todo.id)}>delete</button></td>
                                         </tr>
                                         // all attributes' names must match their names in backend data
                                 )
                             }
                         </tbody>
                     </table>
+                    <div className="row">
+                        <button className="btn btn-success" onClick={this.addTodoClicked}>Add</button>
+                    </div>
                 </div>
             </div>
         )
+    }
+
+    deleteTodoClicked(id) {
+        let username = AuthenticationService.getLoggedInUser()
+        TodoDataService.deleteTodos(username, id)
+         .then (
+             response => { 
+                this.setState({message : `Deleted the Todo No.${id} successfully.`})
+                // here to refresh the page after delete a todo
+                this.refreshTodos()
+                }
+         )
+        // console.log(username + " " + id)
+    }
+
+    updateTodoClicked(id) {
+        let username = AuthenticationService.getLoggedInUser()
+        // console.log("update " + id)
+        this.props.history.push(`/todos/${id}`)
+    }
+
+    addTodoClicked() {
+        this.props.history.push('/todos/-1')
     }
 }
 
