@@ -81,12 +81,12 @@ class TodoComponent extends Component {
             description: values.description,
             targetDate: values.targetDate
         }
-        if (this.state.id == -1) {
+        if (this.state.id != -1) {
             TodoDataService.updateTodo(username, this.state.id, todo).then(
                 () => (this.props.history.push('/todos'))
             )
         } else {
-            TodoDataService.postTodo(username, todo).then(
+            TodoDataService.addTodo(username, todo).then(
                 () => (this.props.history.push('/todos'))
             )
         }
