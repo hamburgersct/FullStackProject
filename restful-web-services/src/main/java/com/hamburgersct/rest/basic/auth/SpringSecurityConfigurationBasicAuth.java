@@ -1,4 +1,4 @@
-package com.hamburgersct.rest.webservices.restfulwebservices.basic.auth;
+package com.hamburgersct.rest.basic.auth;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
